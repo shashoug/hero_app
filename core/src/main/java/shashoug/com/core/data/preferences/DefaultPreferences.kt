@@ -83,11 +83,22 @@ class DefaultPreferences(
             activityLevel = ActivityLevel.fromString(activityLevel ?: "medium"),
             goalType =  GoalType.fromString(goalType ?: "keep_weight"),
             carbRatio = carbRatio,
-            proteinRation = proteinRatio,
+            proteinRatio = proteinRatio,
             fatRatio = fatRatio
         )
 
 
+    }
+
+    override fun saveShouldShowOnboarding(shouldShow: Boolean) {
+        sharedPre
+            .edit()
+            .putBoolean(Preferences.KEY_SHOULD_SHOW_ONBOARDING, shouldShow)
+            .apply()
+    }
+
+    override fun loadShouldShowOnboarding(): Boolean {
+        return  sharedPre.getBoolean(Preferences.KEY_SHOULD_SHOW_ONBOARDING, true)
     }
 
 }
