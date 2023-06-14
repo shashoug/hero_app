@@ -26,6 +26,7 @@ import shashoug.com.onboarding_presentation.height.HeightScreen
 import shashoug.com.onboarding_presentation.nutrient_goal.NutrientGoalScreen
 import shashoug.com.onboarding_presentation.weight.WeightScreen
 import shashoug.com.onboarding_presentation.welcome.WelcomeScreen
+import shashoug.com.tracker_presentation.tracker_overview.TrackerOverviewScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -77,7 +78,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(Routes.TRACKER){
-
+                             TrackerOverviewScreen(onNavigate = navController::navigate)
                         }
                         composable(Routes.SEARCH){
 

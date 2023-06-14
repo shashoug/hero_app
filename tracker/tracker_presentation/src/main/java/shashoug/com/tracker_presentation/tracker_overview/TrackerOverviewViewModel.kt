@@ -80,7 +80,7 @@ private var getFoodsForDateJob : Job? = null
     }
     private fun refreshFood() {
         getFoodsForDateJob?.cancel()
-      getFoodsForDateJob =  trackerUseCases
+        getFoodsForDateJob =  trackerUseCases
             .getFoodForDate(state.date)
             .onEach { foods ->
                 val nutrientsResult = trackerUseCases.calculateMealNutrients(foods)
@@ -111,8 +111,6 @@ private var getFoodsForDateJob : Job? = null
                             calories = nutrientsForMeal.calories
                         )
                     }
-
-
                 )
             }.launchIn(viewModelScope)
     }
