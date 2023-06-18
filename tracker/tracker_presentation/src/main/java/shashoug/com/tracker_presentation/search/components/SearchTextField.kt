@@ -23,6 +23,7 @@ import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import shashoug.com.coreui.LocalSpacing
 
@@ -34,7 +35,7 @@ fun SearchTextField(
     hint : String = "Search..",
     onValueChange : (String) -> Unit,
     onSearch : () -> Unit,
-    shouldShowHint : Boolean = true,
+    shouldShowHint : Boolean = false,
     onFocusChanged : (FocusState) -> Unit,
 ){
     val spacing = LocalSpacing.current
@@ -51,7 +52,9 @@ Box(
                 defaultKeyboardAction(ImeAction.Search)
             }
         ),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Search,
+        ),
         modifier = Modifier
             .clip(RoundedCornerShape(5.dp))
             .padding(2.dp)

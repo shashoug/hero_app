@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
 import dagger.hilt.android.AndroidEntryPoint
+import shashoug.com.core.domin.preferences.Preferences
 import shashoug.com.core.navigation.Routes
 import shashoug.com.hero.navigation.navigate
 import shashoug.com.hero.ui.theme.HeroTheme
@@ -31,13 +32,19 @@ import shashoug.com.onboarding_presentation.weight.WeightScreen
 import shashoug.com.onboarding_presentation.welcome.WelcomeScreen
 import shashoug.com.tracker_presentation.search.SearchScreen
 import shashoug.com.tracker_presentation.tracker_overview.TrackerOverviewScreen
+import javax.inject.Inject
 
 @OptIn(ExperimentalCoilApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var preferences: Preferences
+
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val shouldShowOnboarding = preferences.loadShouldShowOnboarding()
         setContent {
             HeroTheme {
                 // A surface container using the 'background' color from the theme
@@ -47,7 +54,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     scaffoldState = scaffoldState) {
                     NavHost(navController = navController,
-                        startDestination = Routes.WELCOME ){
+                        startDestination = if(shouldShowOnboarding){Routes.WELCOME} else {Routes.TRACKER}
+                    ){
 
                         composable(Routes.WELCOME){
                             WelcomeScreen(onNavigate = navController::navigate)
