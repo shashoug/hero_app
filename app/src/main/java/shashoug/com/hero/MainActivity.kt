@@ -11,9 +11,12 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import coil.annotation.ExperimentalCoilApi
 import dagger.hilt.android.AndroidEntryPoint
 import shashoug.com.core.navigation.Routes
 import shashoug.com.hero.navigation.navigate
@@ -26,8 +29,10 @@ import shashoug.com.onboarding_presentation.height.HeightScreen
 import shashoug.com.onboarding_presentation.nutrient_goal.NutrientGoalScreen
 import shashoug.com.onboarding_presentation.weight.WeightScreen
 import shashoug.com.onboarding_presentation.welcome.WelcomeScreen
+import shashoug.com.tracker_presentation.search.SearchScreen
 import shashoug.com.tracker_presentation.tracker_overview.TrackerOverviewScreen
 
+@OptIn(ExperimentalCoilApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -80,7 +85,34 @@ class MainActivity : ComponentActivity() {
                         composable(Routes.TRACKER){
                              TrackerOverviewScreen(onNavigate = navController::navigate)
                         }
-                        composable(Routes.SEARCH){
+                        composable(
+                            Routes.SEARCH + "/{mealName}/{dayOfMonth}/{month}/{year}",
+                            arguments = listOf(
+                                navArgument("mealName"){
+                                    type = NavType.StringType
+                                },
+                                navArgument("dayOfMonth"){
+                                    type = NavType.IntType
+                                },
+                                navArgument("month"){
+                                    type = NavType.IntType
+                                },
+                                navArgument("year"){
+                                    type = NavType.IntType
+                                },
+                            )
+                        ){
+                            val mealName = it.arguments?.getString("mealName")!!
+                            val dayOfMonth = it.arguments?.getInt("dayOfMonth")!!
+                            val month = it.arguments?.getInt("month")!!
+                            val year = it.arguments?.getInt("year")!!
+                            SearchScreen(
+                                onNavigateUp = { navController.navigateUp() },
+                                scaffoldState = scaffoldState,
+                                mealName = mealName ,
+                                dayOfMonth = dayOfMonth ,
+                                month = month,
+                                year = year )
 
                         }
                         composable(Routes.ACTIVITY){
